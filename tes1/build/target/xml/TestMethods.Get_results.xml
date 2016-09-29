@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SOB Api Test"
+           tests="2"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="2.049">
+  <properties />
+  
+  
+            <testcase name="testApp" time="1.131" classname="TestMethods.Get" />
+                <testcase name="get2" time="0.918" classname="TestMethods.Get" />
+      
+</testsuite>

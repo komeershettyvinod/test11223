@@ -1,0 +1,45 @@
+group 'test'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile "org.codehaus.groovy:groovy-all:2.3.9"
+    testCompile 'org.testng:testng:6.9.10'
+    testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+
+    compile "org.uncommons:reportng:1.1.4"
+    compile "velocity:velocity:1.4"
+    compile "com.google.inject:guice:4.0"
+}
+
+task testSuite (type: Test, dependsOn: [classes,testClasses]) {
+
+    println("IN DRIVER.EACH")
+    delete "$buildDir/tmp"
+    delete "$buildDir/test-results"
+    delete "$project.buildDir//target"
+    outputs.upToDateWhen { false }
+    reports.html.destination = "$buildDir/reports/"
+    reports.junitXml.destination = "$buildDir/test-results/"
+    test.testLogging.showStandardStreams = true
+    systemProperty "test.logger.configured", "false"
+    reports.html.enabled = false
+
+    useTestNG() {
+
+        outputDirectory = file("$project.buildDir//target")
+        useDefaultListeners = false
+        options {
+            listeners << 'org.uncommons.reportng.HTMLReporter'
+            listeners << 'org.uncommons.reportng.JUnitXMLReporter'
+        }
+        suites 'src/test/resources/test.xml'
+    }
+
+}
